@@ -35,13 +35,12 @@
 ;(global-font-lock-mode t t)
 (setq font-lock-maximum-decoration t)
 
-;(setq default-directory "~/Documentos/WyeWorks/Proys/")
-(setq default-directory "~/")
+;(setq default-directory "~/")
 
 ;; Get rid of toolbar, scrollbar, menubar
 (progn
   (tool-bar-mode)
-;  (menu-bar-mode)
+  ;; (menu-bar-mode)
   (scroll-bar-mode))
 
 (add-to-list 'load-path "~/.emacs.d/plugins/textmate")
@@ -186,7 +185,7 @@ LIST defaults to all existing live buffers."
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(cua-mode t nil (cua-base))
- '(ecb-layout-window-sizes (quote (("left8" (ecb-directories-buffer-name 0.23671497584541062 . 0.29310344827586204) (ecb-sources-buffer-name 0.23671497584541062 . 0.22413793103448276) (ecb-methods-buffer-name 0.23671497584541062 . 0.25862068965517243) (ecb-history-buffer-name 0.23671497584541062 . 0.20689655172413793)))))
+ '(ecb-layout-window-sizes (quote (("left8" (ecb-directories-buffer-name 0.18269230769230768 . 0.21311475409836064) (ecb-sources-buffer-name 0.18269230769230768 . 0.26229508196721313) (ecb-methods-buffer-name 0.18269230769230768 . 0.26229508196721313) (ecb-history-buffer-name 0.18269230769230768 . 0.2459016393442623)))))
  '(ecb-options-version "2.40")
  '(show-paren-mode t))
 ;; resize the windows on emacs and run ecb-store-window-sizes
