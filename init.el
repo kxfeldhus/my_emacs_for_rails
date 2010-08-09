@@ -127,7 +127,7 @@ LIST defaults to all existing live buffers."
 (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
 '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))
 )
-(toggle-fullscreen)
+;(toggle-fullscreen)
 
 
 ;; maxframe
@@ -172,7 +172,6 @@ LIST defaults to all existing live buffers."
 ;(semantic-load-enable-minimum-features)
 ;(setq semantic-load-turn-everything-on t)
 
-
 ;; ecb
 (add-to-list 'load-path "~/.emacs.d/plugins/ecb")
 (require 'ecb)
@@ -184,10 +183,10 @@ LIST defaults to all existing live buffers."
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(cua-mode t nil (cua-base))
- '(ecb-layout-window-sizes (quote (("left8" (ecb-directories-buffer-name 0.18269230769230768 . 0.21311475409836064) (ecb-sources-buffer-name 0.18269230769230768 . 0.26229508196721313) (ecb-methods-buffer-name 0.18269230769230768 . 0.26229508196721313) (ecb-history-buffer-name 0.18269230769230768 . 0.2459016393442623)))))
+ '(ecb-layout-name "left3")
+ '(ecb-layout-window-sizes nil)
  '(ecb-options-version "2.40")
- '(show-paren-mode t))
+ '(ecb-windows-width 0.15))
 ;; resize the windows on emacs and run ecb-store-window-sizes
 ; '(show-paren-mode t))
 
@@ -619,3 +618,9 @@ makes)."
 (delete-selection-mode 1) ; delete seleted text when typing
 (setq x-select-enable-clipboard t)
 (setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
+
+;; PHP Mode
+(add-to-list 'load-path "~/.emacs.d/plugins/php-mode")
+(autoload 'php-mode "php-mode" "Major mode for editing php code." t)
+(add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
+(add-to-list 'auto-mode-alist '("\\.inc$" . php-mode))
