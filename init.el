@@ -4,12 +4,10 @@
 ;(set-selection-coding-system 'utf-8)
 ;(prefer-coding-system 'utf-8)
 ;'(buffer-encoding (quote utf-8))
-'(recentf-mode t)
-'(transient-mark-mode t)
-
 ;(set-default-font "Bitstream Vera Sans Mono-10")
 ;(set-fontset-font (frame-parameter nil 'font)
 ;  'han '("cwTeXHeiBold" . "unicode-bmp"))
+
 
 (setq make-backup-files nil)
 (setq query-replace-highlight t)
@@ -177,7 +175,7 @@ LIST defaults to all existing live buffers."
 (require 'ecb)
 (setq ecb-tip-of-the-day nil)
 (setq ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
-(ecb-activate)
+;(ecb-activate)
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
   ;; If you edit it by hand, you could mess it up, so be careful.
@@ -579,15 +577,14 @@ makes)."
 
 ;; Key bindings
 (global-set-key [S-backspace] 'backward-delete-char)
-(global-set-key (kbd "C-c C-c") 'comment-region)
-(global-set-key (kbd "C-c C-u") 'uncomment-region)
-(fset 'tabify-all "\C-xh\234")
+(global-set-key (kbd "C-q") 'comment-region)
+(global-set-key (kbd "C-w") 'uncomment-region)
 (global-set-key (kbd "C-c C-h") 'tabify-all)
 (global-set-key (kbd "C-z") 'undo) ; Ctrl+z
 (global-set-key (kbd "C-S-z") 'redo) ;  Ctrl+Shift+z
-(global-set-key "\C-x C-x" 'clipboard-kill-region)
-(global-set-key "\C-c" 'clipboard-kill-ring-save)
-(global-set-key "\C-v" 'clipboard-yank)
+(global-set-key (kbd "C-x C-x") 'clipboard-kill-region)
+(global-set-key (kbd "C-c C-c") 'clipboard-kill-ring-save)
+(global-set-key (kbd "C-v") 'clipboard-yank)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -613,11 +610,11 @@ makes)."
 (put 'scroll-left 'disabled nil)
 
 ;; Cua-mode, allows for ctrl-c ctrl-visible
-(cua-mode t)
-(transient-mark-mode 1) ;; No region when it is not highlighted
-(delete-selection-mode 1) ; delete seleted text when typing
-(setq x-select-enable-clipboard t)
-(setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
+;; (cua-mode t)
+;; (transient-mark-mode 1) ;; No region when it is not highlighted
+;; (delete-selection-mode 1) ; delete seleted text when typing
+;; (setq x-select-enable-clipboard t)
+;; (setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
 
 ;; PHP Mode
 (add-to-list 'load-path "~/.emacs.d/plugins/php-mode")
