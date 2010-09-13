@@ -1,20 +1,34 @@
+;; ENCODING
 ;(setq locale-coding-system 'utf-8)
 ;(set-terminal-coding-system 'utf-8)
 ;(set-keyboard-coding-system 'utf-8)
 ;(set-selection-coding-system 'utf-8)
 ;(prefer-coding-system 'utf-8)
 ;'(buffer-encoding (quote utf-8))
+
+
+;; FONTS
 ;(set-default-font "Bitstream Vera Sans Mono-10")
 ;(set-fontset-font (frame-parameter nil 'font)
 ;  'han '("cwTeXHeiBold" . "unicode-bmp"))
+(setq default-frame-alist '((font . "inconsolata")))
+;; Get back font antialiasing
+(push '(font-backend xft x) default-frame-alist)
+;(global-font-lock-mode t t)
+(setq font-lock-maximum-decoration t)
+
+
+;; HIGHLIGHTING
+;; highlight region between point and mark
+(transient-mark-mode t)
+;; highlight during query
+(setq query-replace-highlight t)
+;; highlight incremental search
+(setq search-highlight t)
 
 
 (setq make-backup-files nil)
-(setq query-replace-highlight t)
-(setq search-highlight t)
-(setq font-lock-maximum-decoration t)
 (fset 'yes-or-no-p 'y-or-n-p)
-(setq require-final-newline t)
 (setq major-mode 'text-mode)
 
 ;; turn on paren matching
@@ -25,54 +39,21 @@
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message nil)
 
-(setq default-frame-alist '((font . "inconsolata")))
-
-;; Get back font antialiasing
-(push '(font-backend xft x) default-frame-alist)
-
-;(global-font-lock-mode t t)
-(setq font-lock-maximum-decoration t)
-
 ;(setq default-directory "~/")
 
 ;; Get rid of toolbar, scrollbar, menubar
-(progn
-  (tool-bar-mode)
-  ;; (menu-bar-mode)
-  (scroll-bar-mode))
+(tool-bar-mode 0)
+;;(menu-bar-mode 0)
+(scroll-bar-mode 0)
 
-(add-to-list 'load-path "~/.emacs.d/plugins/textmate")
-(require 'textmate)
-(textmate-mode)
+;; (add-to-list 'load-path "~/.emacs.d/plugins/textmate")
+;; (require 'textmate)
+;; (textmate-mode)
 
 ;; redo
 (add-to-list  'load-path "~/.emacs.d/plugins/redo")
 (require 'redo)
 (global-set-key [(control -)] 'redo)
-
-
-;; show ascii table
-;; optained from http://www.chrislott.org/geek/emacs/dotemacs.html
-(defun ascii-table ()
-  "Print the ascii table. Based on a defun by Alex Schroeder <asc@bsiag.com>"
-  (interactive)
-  (switch-to-buffer "*ASCII*")
-  (erase-buffer)
-  (insert (format "ASCII characters up to number %d.\n" 254))
-  (let ((i 0))
-    (while (< i 254)
-      (setq i (+ i 1))
-      (insert (format "%4d %c\n" i i))))
-  (beginning-of-buffer))
-
-
-;; insert date into buffer at point
-;; optained from http://www.chrislott.org/geek/emacs/dotemacs.html
-(defun insert-date ()
-  "Insert date at point."
-  (interactive)
-  (insert (format-time-string "%a %Y-%m-%d - %l:%M %p")))
-
 
 ;; Centering code stolen from somewhere and restolen from
 ;; http://www.chrislott.org/geek/emacs/dotemacs.html
@@ -170,6 +151,7 @@ LIST defaults to all existing live buffers."
 ;(semantic-load-enable-minimum-features)
 ;(setq semantic-load-turn-everything-on t)
 
+
 ;; ecb
 (add-to-list 'load-path "~/.emacs.d/plugins/ecb")
 (require 'ecb)
@@ -185,8 +167,6 @@ LIST defaults to all existing live buffers."
  '(ecb-layout-window-sizes nil)
  '(ecb-options-version "2.40")
  '(ecb-windows-width 0.15))
-;; resize the windows on emacs and run ecb-store-window-sizes
-; '(show-paren-mode t))
 
 
 ;; find-recursive
@@ -197,6 +177,7 @@ LIST defaults to all existing live buffers."
 ;; anything
 (add-to-list 'load-path "~/.emacs.d/plugins/anything")
 (require 'anything)
+
 
 ;; anything-rcodetools
 (add-to-list 'load-path "~/.emacs.d/plugins/rcodetools")
@@ -239,9 +220,9 @@ LIST defaults to all existing live buffers."
 
 
 ;; css
-;(add-to-list  'load-path "~/.emacs.d/plugins/css-mode")
-;(autoload 'css-mode "css-mode" "Mode for editing CSS files" t)
-;(setq auto-mode-alist (append '(("\\.css$" . css-mode)) auto-mode-alist))
+(add-to-list  'load-path "~/.emacs.d/plugins/css-mode")
+(autoload 'css-mode "css-mode" "Mode for editing CSS files" t)
+(setq auto-mode-alist (append '(("\\.css$" . css-mode)) auto-mode-alist))
 (add-hook 'css-mode-hook
          (lambda()
            (local-set-key (kbd "<return>") 'newline-and-indent)
@@ -558,7 +539,7 @@ makes)."
 ;; snippet
 ;(add-to-list 'load-path "~/.emacs.d/plugins/snippet")
 
-;; rails-emacs
+;; emacs-rails
 ;(add-to-list 'load-path "~/.emacs.d/plugins/emacs-rails")
 ;(require 'rails)
 
@@ -582,9 +563,9 @@ makes)."
 (global-set-key (kbd "C-c C-h") 'tabify-all)
 (global-set-key (kbd "C-z") 'undo) ; Ctrl+z
 (global-set-key (kbd "C-S-z") 'redo) ;  Ctrl+Shift+z
-(global-set-key (kbd "C-x C-x") 'clipboard-kill-region)
+(global-set-key (kbd "C-x") 'clipboard-kill-region)
 (global-set-key (kbd "C-c C-c") 'clipboard-kill-ring-save)
-(global-set-key (kbd "C-v") 'clipboard-yank)
+(global-set-key (kbd "C-c C-v") 'clipboard-yank)
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -611,8 +592,7 @@ makes)."
 
 ;; Cua-mode, allows for ctrl-c ctrl-visible
 ;; (cua-mode t)
-;; (transient-mark-mode 1) ;; No region when it is not highlighted
-;; (delete-selection-mode 1) ; delete seleted text when typing
+(delete-selection-mode ) ; delete seleted text when typing
 ;; (setq x-select-enable-clipboard t)
 ;; (setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
 
@@ -621,3 +601,19 @@ makes)."
 (autoload 'php-mode "php-mode" "Major mode for editing php code." t)
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
 (add-to-list 'auto-mode-alist '("\\.inc$" . php-mode))
+
+;; ORG-MODE
+(add-to-list 'load-path "~/.emacs.d/plugins/org-mode/lisp")
+(require 'org-install)
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+(setq org-agenda-files (list "~/org/work.org"))
+(setq org-agenda-skip-unavailable-files t)
+
+;; MOBILEORG
+;; Set to the name of the file where new notes will be stored
+(setq org-mobile-inbox-for-pull "~/org/mobile.org")
+;; Set to <your Dropbox root directory>/MobileOrg.
+(setq org-mobile-directory "~/Dropbox/MobileOrg")
