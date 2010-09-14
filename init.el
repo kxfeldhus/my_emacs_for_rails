@@ -166,7 +166,8 @@ LIST defaults to all existing live buffers."
  '(ecb-layout-name "left3")
  '(ecb-layout-window-sizes nil)
  '(ecb-options-version "2.40")
- '(ecb-windows-width 0.15))
+ '(ecb-windows-width 0.15)
+ '(show-paren-mode t))
 
 
 ;; find-recursive
@@ -543,9 +544,9 @@ makes)."
 ;(add-to-list 'load-path "~/.emacs.d/plugins/emacs-rails")
 ;(require 'rails)
 
-;(kill-buffer "*ESS*")
-;(kill-buffer "*Compile-Log*")
-;(kill-buffer "*Messages*")
+;;(kill-buffer "*ESS*")
+;;(kill-buffer "*Compile-Log*")
+;;(kill-buffer "*Messages*")
 
 (custom-set-faces
   ;; custom-set-faces was added by Custom.
@@ -563,7 +564,7 @@ makes)."
 (global-set-key (kbd "C-c C-h") 'tabify-all)
 (global-set-key (kbd "C-z") 'undo) ; Ctrl+z
 (global-set-key (kbd "C-S-z") 'redo) ;  Ctrl+Shift+z
-(global-set-key (kbd "C-x") 'clipboard-kill-region)
+(global-set-key (kbd "C-c C-x") 'clipboard-kill-region)
 (global-set-key (kbd "C-c C-c") 'clipboard-kill-ring-save)
 (global-set-key (kbd "C-c C-v") 'clipboard-yank)
 
@@ -602,6 +603,7 @@ makes)."
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
 (add-to-list 'auto-mode-alist '("\\.inc$" . php-mode))
 
+
 ;; ORG-MODE
 (add-to-list 'load-path "~/.emacs.d/plugins/org-mode/lisp")
 (require 'org-install)
@@ -612,8 +614,30 @@ makes)."
 (setq org-agenda-files (list "~/org/work.org"))
 (setq org-agenda-skip-unavailable-files t)
 
+(setq org-todo-keywords (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
+ (sequence "WAITING(w@/!)" "CANCELLED(c)"))))
+
+(setq org-todo-keyword-faces
+      (quote (("TODO"      :foreground "red"          :weight bold)
+              ("NEXT"      :foreground "lightblue"    :weight bold)
+              ("DONE"      :foreground "forest green" :weight bold)
+              ("WAITING"   :foreground "yellow"       :weight bold)
+              ("SOMEDAY"   :foreground "goldenrod"    :weight bold)
+              ("CANCELLED" :foreground "orangered"    :weight bold)
+              ("QUOTE"     :foreground "hotpink"      :weight bold)
+              ("QUOTED"    :foreground "indianred1"   :weight bold)
+              ("APPROVED"  :foreground "forest green" :weight bold)
+              ("EXPIRED"   :foreground "olivedrab1"   :weight bold)
+              ("REJECTED"  :foreground "olivedrab"    :weight bold)
+              ("OPEN"      :foreground "magenta"      :weight bold)
+              ("CLOSED"    :foreground "forest green" :weight bold))))
+
 ;; MOBILEORG
 ;; Set to the name of the file where new notes will be stored
 (setq org-mobile-inbox-for-pull "~/org/mobile.org")
 ;; Set to <your Dropbox root directory>/MobileOrg.
 (setq org-mobile-directory "~/Dropbox/MobileOrg")
+
+;; MAGIT
+(add-to-list 'load-path "~/.emacs.d/plugins/magit")
+(require 'magit)
