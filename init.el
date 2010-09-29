@@ -1,22 +1,10 @@
-;; ENCODING
-;(setq locale-coding-system 'utf-8)
-;(set-terminal-coding-system 'utf-8)
-;(set-keyboard-coding-system 'utf-8)
-;(set-selection-coding-system 'utf-8)
-;(prefer-coding-system 'utf-8)
-;'(buffer-encoding (quote utf-8))
-
-
 ;; FONTS
-;(set-default-font "Bitstream Vera Sans Mono-10")
-;(set-fontset-font (frame-parameter nil 'font)
-;  'han '("cwTeXHeiBold" . "unicode-bmp"))
 (setq default-frame-alist '((font . "inconsolata")))
 ;; Get back font antialiasing
 (push '(font-backend xft x) default-frame-alist)
-;(global-font-lock-mode t t)
+;; Set syntax highlighting always on
+(global-font-lock-mode t t)
 (setq font-lock-maximum-decoration t)
-
 
 ;; HIGHLIGHTING
 ;; highlight region between point and mark
@@ -25,52 +13,33 @@
 (setq query-replace-highlight t)
 ;; highlight incremental search
 (setq search-highlight t)
-
-
-(setq make-backup-files nil)
-(fset 'yes-or-no-p 'y-or-n-p)
-(setq major-mode 'text-mode)
-
-;; turn on paren matching
+;; highlight matching parenthesis'
 (show-paren-mode t)
 (setq show-paren-style 'mixed)
+(delete-selection-mode ) ; delete seleted text when typing
 
+;; RANDOM
+;; turn off backup files
+(setq make-backup-files nil)
+;; Type y for yes and n for no
+(fset 'yes-or-no-p 'y-or-n-p)
+;; text-mode major mode by default
+(setq major-mode 'text-mode)
 ;; Get rid of the startup screen
 (setq inhibit-startup-screen t)
 (setq initial-scratch-message nil)
-
+;; Default dir, I prefer it to be the dir i start emacs in
 ;(setq default-directory "~/")
-
 ;; Get rid of toolbar, scrollbar, menubar
 (tool-bar-mode 0)
-;;(menu-bar-mode 0)
+;(menu-bar-mode 0)
 (scroll-bar-mode 0)
 
-;; (add-to-list 'load-path "~/.emacs.d/plugins/textmate")
-;; (require 'textmate)
-;; (textmate-mode)
-
+;; FUNCTIONALITY
 ;; redo
 (add-to-list  'load-path "~/.emacs.d/plugins/redo")
 (require 'redo)
 (global-set-key [(control -)] 'redo)
-
-;; Centering code stolen from somewhere and restolen from
-;; http://www.chrislott.org/geek/emacs/dotemacs.html
-;; centers the screen around a line...
-(global-set-key [(control l)]  'centerer)
-(defun centerer ()
-   "Repositions current line: once middle, twice top, thrice bottom"
-   (interactive)
-   (cond ((eq last-command 'centerer2)  ; 3 times pressed = bottom
-          (recenter -1))
-         ((eq last-command 'centerer1)  ; 2 times pressed = top
-          (recenter 0)
-          (setq this-command 'centerer2))
-         (t                             ; 1 time pressed = middle
-          (recenter)
-          (setq this-command 'centerer1))))
-
 
 ;; Kills live buffers, leaves some emacs work buffers
 ;; optained from http://www.chrislott.org/geek/emacs/dotemacs.html
@@ -88,6 +57,7 @@ LIST defaults to all existing live buffers."
           ;; (not (string-equal name "*Buffer List*"))
            ;(not (string-equal name "*buffer-selection*"))
            ;(not (string-equal name "*Shell Command Output*"))
+           (not (string-equal name "work.org"))
            (not (string-equal name "*scratch*"))
            (/= (aref name 0) ? )
            (if (buffer-modified-p buffer)
@@ -96,7 +66,6 @@ LIST defaults to all existing live buffers."
                    (kill-buffer buffer))
              (kill-buffer buffer))))
     (setq list (cdr list))))
-
 
 ;; fullscreen
 (defun toggle-fullscreen ()
@@ -108,24 +77,17 @@ LIST defaults to all existing live buffers."
 )
 ;(toggle-fullscreen)
 
-
 ;; maxframe
 (add-to-list  'load-path "~/.emacs.d/plugins/maxframe")
 (require 'maxframe)
 (add-hook 'window-setup-hook 'maximize-frame t)
 (add-hook 'window-setup-hook 'ecb-redraw-layout t)
-
 (set-background-color "#2b2b2b")
 (set-foreground-color "white")
 (set-face-background 'modeline "DarkRed")
 (set-face-foreground 'modeline "white")
-;; color-theme
-;(add-to-list  'load-path "~/.emacs.d/plugins/color-theme")
-;(require 'color-theme)
-;    (color-theme-initialize)
-;    (color-theme-arjen)
 
-
+;; Mouse-wheel
 (mouse-wheel-mode t)
 ;; wheel mouse
 ;(defun up-slightly () (interactive) (scroll-up 5))
@@ -141,16 +103,9 @@ LIST defaults to all existing live buffers."
 ;(global-set-key [C-mouse-4] 'down-a-lot)
 ;(global-set-key [C-mouse-5] 'up-a-lot)
 
-
 ;; cedet
 ;; See cedet/common/cedet.info for configuration details.
 (load-file "~/.emacs.d/plugins/cedet/common/cedet.el")
-; Enable EDE (Project Management) features
-;(global-ede-mode 1)
-;; * This enables the database and idle reparse engines
-;(semantic-load-enable-minimum-features)
-;(setq semantic-load-turn-everything-on t)
-
 
 ;; ecb
 (add-to-list 'load-path "~/.emacs.d/plugins/ecb")
@@ -159,66 +114,77 @@ LIST defaults to all existing live buffers."
 (setq ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
 ;(ecb-activate)
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
  '(ecb-layout-name "left3")
  '(ecb-layout-window-sizes nil)
  '(ecb-options-version "2.40")
  '(ecb-windows-width 0.15)
  '(show-paren-mode t))
 
-
 ;; find-recursive
 (add-to-list 'load-path "~/.emacs.d/plugins/find-recursive")
 (require 'find-recursive)
-
 
 ;; anything
 (add-to-list 'load-path "~/.emacs.d/plugins/anything")
 (require 'anything)
 
-
 ;; anything-rcodetools
 (add-to-list 'load-path "~/.emacs.d/plugins/rcodetools")
-;(require 'rcodetools)
+(require 'rcodetools)
 ;(require 'icicles-rcodetools)
-;(require 'anything)
 (require 'anything-rcodetools)
-;;       ;; Command to get all RI entries.
-(setq rct-get-all-methods-command "PAGER=cat fri -l -L")
-;;       (setq rct-get-all-methods-command "PAGER=cat fri -l")
-;(setq rct-get-all-methods-command "PAGER=cat ri -l")
-;;       ;; See docs
-;; (define-key ruby-mode-map "\M-\C-i" 'rct-complete-symbol)
-(define-key anything-map "\C-z" 'anything-execute-persistent-action)
-;(rct-get-all-methods)
-
 
 ;; Interactively Do Things (highly recommended, but not strictly required)
 (require 'ido)
 (ido-mode t)
 
+;; Rinari
+(add-to-list 'load-path "~/.emacs.d/plugins/rinari")
+(require 'rinari)
+(setq rinari-tags-file-name "TAGS")
 
-;; tabkey2
-;(load "~/.emacs.d/plugins/nxhtml/util/tabkey2.el")
+;; yasnippet
+(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
+(require 'yasnippet)
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/plugins/yasnippet/snippets")
+(setq require-final-newline nil)
+
+;; yasnippet rails
+(load "~/.emacs.d/plugins/yasnippets-rails/setup.el")
+
+;; autotest
+(add-to-list 'load-path "~/.emacs.d/plugins/autotest")
+(require 'autotest)
+
+;; Put autosave files (ie #foo#) in one place, *not*
+;; scattered all over the file system!
+;; (taken from: http://snarfed.org/space/gnu%20emacs%20backup%20files)
+(defvar autosave-dir
+  (concat "/tmp/emacs_autosaves/" (user-login-name) "/"))
+(make-directory autosave-dir t)
+(defun auto-save-file-name-p (filename)
+  (string-match "^#.*#$" (file-name-nondirectory filename)))
+(defun make-auto-save-file-name ()
+  (concat autosave-dir
+          (if buffer-file-name
+              (concat "#" (file-name-nondirectory buffer-file-name) "#")
+            (expand-file-name
+             (concat "#%" (buffer-name) "#")))))
+
+;; delete trailing whitespace
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; comment bar
+(defun comment-bar (&optional without-newline)
+  "Create 80 pound signs"
+  (interactive "P")
+  (insert-char ?# (- 80 (current-column)))
+  (if without-newline (beginning-of-line) (newline))
+  (indent-according-to-mode))
 
 
-
-;; DTD mode
-(autoload 'dtd-mode "tdtd" "Major mode for SGML and XML DTDs." t)
-(autoload 'dtd-etags "tdtd" "Execute etags on FILESPEC and match on DTD-specific regular expressions." t)
-(autoload 'dtd-grep "tdtd" "Grep for PATTERN in files matching FILESPEC." t)
-(setq auto-mode-alist (append (list
-    '("\\.dcl$" . dtd-mode)
-    '("\\.dec$" . dtd-mode)
-    '("\\.dtd$" . dtd-mode)
-    '("\\.ele$" . dtd-mode)
-    '("\\.ent$" . dtd-mode)
-    '("\\.mod$" . etd-mode))
-  auto-mode-alist))
-
+;; LANGUAGE MODES
 
 ;; css
 (add-to-list  'load-path "~/.emacs.d/plugins/css-mode")
@@ -228,7 +194,6 @@ LIST defaults to all existing live buffers."
          (lambda()
            (local-set-key (kbd "<return>") 'newline-and-indent)
 ))
-
 
 ;; javascript
 (add-to-list  'load-path "~/.emacs.d/plugins/javascript")
@@ -314,24 +279,20 @@ t)
    try-complete-file-name
    try-expand-dabbrev))
 
-
 ;; yaml
 (add-to-list 'load-path "~/.emacs.d/plugins/yaml-mode")
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-
 
 ;; rdebug
 (add-to-list 'load-path "~/.emacs.d/plugins/rdebug")
 (require 'rdebug)
 (setq rdebug-short-key-mode t)
 
-
 ;; ri-emacs
 (setq ri-ruby-script (expand-file-name "~/.emacs.d/plugins/ri-emacs/ri-emacs.rb"))
 ;(autoload 'ri (expand-file-name "~/.emacs.d/plugins/ri-emacs/ri-ruby.el") nil t)
 (load "~/.emacs.d/plugins/ri-emacs/ri-ruby.el")
-
 
 ;; ruby-mode-hook
 (add-hook 'ruby-mode-hook
@@ -345,50 +306,34 @@ t)
            (set (make-local-variable 'indent-tabs-mode) 'nil)
            (set (make-local-variable 'tab-width) 2)
            (imenu-add-to-menubar "IMENU")
-;           (require 'ruby-electric)
            (ruby-electric-mode t)
-;           (require 'ruby-block)
            (ruby-block-mode t)
-;           (local-set-key 'f1 'ri)
            (local-set-key "\M-\C-i" 'ri-ruby-complete-symbol)
-;           (local-set-key 'f4 'ri-ruby-show-args)
            (define-key ruby-mode-map "\M-\C-o" 'rct-complete-symbol)
            (local-set-key (kbd "<return>") 'newline-and-indent)
 ))
 
-
 ;; nxhtml
-;(setq *nxhtml-autostart-file* (expand-file-name "~/.emacs.d/plugins/nxhtml/autostart.el"))
-;(load *nxhtml-autostart-file*)
-;(setq
-;      nxhtml-global-minor-mode t
-;      mumamo-chunk-coloring 'submode-colored
-;      nxhtml-skip-welcome t
-;      indent-region-mode t
-;      nxhtml-default-encoding "utf8"
-;      rng-nxml-auto-validate-flag nil
-;      nxml-degraded t)
-;(add-to-list 'auto-mode-alist '("\\.html$" . nxhtml-mumamo-mode))
-;(add-to-list 'auto-mode-alist '("\\.html\\.erb$" . eruby-nxhtml-mumamo-mode))
-;(add-hook 'nxhtml-mumamo-mode-hook 'tabkey2-mode)
-;(add-hook 'eruby-nxhtml-mumamo-mode-hook 'tabkey2-mode)
-
+(setq *nxhtml-autostart-file* (expand-file-name "~/.emacs.d/plugins/nxhtml/autostart.el"))
+(load *nxhtml-autostart-file*)
+(setq
+     nxhtml-global-minor-mode t
+     mumamo-chunk-coloring 'submode-colored
+     nxhtml-skip-welcome t
+     indent-region-mode t
+     nxhtml-default-encoding "utf8"
+     rng-nxml-auto-validate-flag nil
+     nxml-degraded t)
+(add-to-list 'auto-mode-alist '("\\.html$" . nxhtml-mumamo-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\.erb$" . eruby-nxhtml-mumamo-mode))
+(add-hook 'nxhtml-mumamo-mode-hook 'tabkey2-mode)
+(add-hook 'eruby-nxhtml-mumamo-mode-hook 'tabkey2-mode)
 
 ;; flymake
 (add-to-list  'load-path "~/.emacs.d/plugins/flymake")
 (require 'flymake)
-
-;; I don't like the default colors :)
 (set-face-background 'flymake-errline "red4")
 (set-face-background 'flymake-warnline "dark slate blue")
-
-;; Feature request: have flymake create its temp files in the system temp file directory instead of in the same directory as the file. When using it with Ruby on Rails and autotest, autotest sees the temp file and tries to do something with it and dies, forcing me to restart it, thus killing the magic of autotest. Putting flymake’s temp files elsewhere seems like the easiest way to dodge this.
-;;
-;; I second the above request. I know there are workarounds for autotest, but it seems like we don’t want to find work arounds for every new web framework, we want to get flymake working in a way that won’t conflict with any other tools.
-;;
-;; It is easy to patch your autotest to ignore flymake files. I have submitted a patch which hopefully will be included in future releases. For more info see: Emacs, flymake and autotest: the fix
-;;
-;; Here is a suggestion for a solution (100% untested). Replace flymake-create-temp-inplace above with
 
 (defun flymake-create-temp-intemp (file-name prefix)
   "Return file name in temporary directory for checking FILE-NAME.
@@ -416,7 +361,6 @@ makes)."
          )
     (flymake-log 3 "create-temp-intemp: file=%s temp=%s" file-name temp-name)
     temp-name))
-
 
 ;; Invoke ruby with '-c' to get syntax checking
 (defun flymake-ruby-init ()
@@ -448,27 +392,6 @@ makes)."
              (if (and (not (null buffer-file-name)) (file-writable-p buffer-file-name))
                  (flymake-mode))
              ))
-
-
-;; Rinari
-(add-to-list 'load-path "~/.emacs.d/plugins/rinari")
-(require 'rinari)
-(setq rinari-tags-file-name "TAGS")
-
-
-;; yasnippet
-(add-to-list 'load-path "~/.emacs.d/plugins/yasnippet")
-(require 'yasnippet)
-(yas/initialize)
-(yas/load-directory "~/.emacs.d/plugins/yasnippet/snippets")
-(setq require-final-newline nil)
-
-;; yasnippet rails
-(load "~/.emacs.d/plugins/yasnippets-rails/setup.el")
-
-
-(add-to-list 'load-path "~/.emacs.d/plugins/autotest")
-(require 'autotest)
 
 
 ;; rhtml-mode
@@ -519,8 +442,6 @@ makes)."
                  '(eshell-mode
                    ;org-mode
                    )))
-   ;(add-to-list 'ac-trigger-commands 'org-self-insert-command)
-
    (add-hook 'emacs-lisp-mode-hook
              (lambda ()
                (setq ac-sources '(ac-source-yasnippet ac-source-abbrev ac-source-words-in-buffer ac-source-symbols))))
@@ -534,77 +455,14 @@ makes)."
                (setq ac-omni-completion-sources '(("\\.\\=" ac-source-rcodetools)))));)
 
 
-;; ri
-;(load "~/.emacs.d/plugins/ri/ri.el")
-
-;; snippet
-;(add-to-list 'load-path "~/.emacs.d/plugins/snippet")
-
-;; emacs-rails
-;(add-to-list 'load-path "~/.emacs.d/plugins/emacs-rails")
-;(require 'rails)
-
-;;(kill-buffer "*ESS*")
-;;(kill-buffer "*Compile-Log*")
-;;(kill-buffer "*Messages*")
-
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- )
-
-;; Kyle's Customizations
-
-;; Key bindings
-(global-set-key [S-backspace] 'backward-delete-char)
-(global-set-key (kbd "C-q") 'comment-region)
-(global-set-key (kbd "C-w") 'uncomment-region)
-(global-set-key (kbd "C-c C-h") 'tabify-all)
-(global-set-key (kbd "C-z") 'undo) ; Ctrl+z
-(global-set-key (kbd "C-S-z") 'redo) ;  Ctrl+Shift+z
-(global-set-key (kbd "C-c C-x") 'clipboard-kill-region)
-(global-set-key (kbd "C-c C-c") 'clipboard-kill-ring-save)
-(global-set-key (kbd "C-c C-v") 'clipboard-yank)
-
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-;; Backup Directory
-(setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
-
-;; Put autosave files (ie #foo#) in one place, *not*
-;; scattered all over the file system!
-;; (taken from: http://snarfed.org/space/gnu%20emacs%20backup%20files)
-(defvar autosave-dir
-  (concat "/tmp/emacs_autosaves/" (user-login-name) "/"))
-(make-directory autosave-dir t)
-(defun auto-save-file-name-p (filename)
-  (string-match "^#.*#$" (file-name-nondirectory filename)))
-(defun make-auto-save-file-name ()
-  (concat autosave-dir
-          (if buffer-file-name
-              (concat "#" (file-name-nondirectory buffer-file-name) "#")
-            (expand-file-name
-             (concat "#%" (buffer-name) "#")))))
-
-;; Enabled "advanced" keybindings
-(put 'scroll-left 'disabled nil)
-
-;; Cua-mode, allows for ctrl-c ctrl-visible
-;; (cua-mode t)
-(delete-selection-mode ) ; delete seleted text when typing
-;; (setq x-select-enable-clipboard t)
-;; (setq cua-keep-region-after-copy t) ;; Standard Windows behaviour
-
-;; PHP Mode
+;; php Mode
 (add-to-list 'load-path "~/.emacs.d/plugins/php-mode")
 (autoload 'php-mode "php-mode" "Major mode for editing php code." t)
 (add-to-list 'auto-mode-alist '("\\.php$" . php-mode))
 (add-to-list 'auto-mode-alist '("\\.inc$" . php-mode))
 
 
-;; ORG-MODE
+;; org-mode
 (add-to-list 'load-path "~/.emacs.d/plugins/org-mode/lisp")
 (require 'org-install)
 (add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
@@ -614,8 +472,8 @@ makes)."
 (setq org-agenda-files (list "~/org/work.org"))
 (setq org-agenda-skip-unavailable-files t)
 
-(setq org-todo-keywords (quote ((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
- (sequence "WAITING(w@/!)" "CANCELLED(c)"))))
+(setq org-todo-keywords (quote ((sequence "TODO(t)" "NEXT(n)" "CURRENT(a)" "|" "DONE(d)")
+ (sequence "WAITING(w)" "CANCELLED(c)"))))
 
 (setq org-todo-keyword-faces
       (quote (("TODO"      :foreground "red"          :weight bold)
@@ -632,12 +490,22 @@ makes)."
               ("OPEN"      :foreground "magenta"      :weight bold)
               ("CLOSED"    :foreground "forest green" :weight bold))))
 
-;; MOBILEORG
-;; Set to the name of the file where new notes will be stored
-(setq org-mobile-inbox-for-pull "~/org/mobile.org")
-;; Set to <your Dropbox root directory>/MobileOrg.
-(setq org-mobile-directory "~/Dropbox/MobileOrg")
-
-;; MAGIT
+;; magit
 (add-to-list 'load-path "~/.emacs.d/plugins/magit")
 (require 'magit)
+
+
+;; KEY BINDINGS
+(global-set-key [S-backspace] 'backward-delete-char)
+(global-set-key (kbd "C-S-Q") 'comment-region)
+(global-set-key (kbd "C-S-W") 'uncomment-region)
+(global-set-key (kbd "C-z") 'undo)
+(global-set-key (kbd "C-S-z") 'redo)
+(global-set-key (kbd "C-w") 'clipboard-kill-region)
+(global-set-key (kbd "M-w") 'clipboard-kill-ring-save)
+(global-set-key (kbd "C-y") 'clipboard-yank)
+(global-set-key (kbd "C-c C-c") 'comment-bar)
+
+
+;; Enabled "advanced" keybindings
+(put 'scroll-left 'disabled nil)
