@@ -494,7 +494,6 @@ makes)."
 (add-to-list 'load-path "~/.emacs.d/plugins/magit")
 (require 'magit)
 
-
 ;; KEY BINDINGS
 (global-set-key [S-backspace] 'backward-delete-char)
 (global-set-key (kbd "C-S-Q") 'comment-region)
@@ -506,6 +505,9 @@ makes)."
 (global-set-key (kbd "C-y") 'clipboard-yank)
 (global-set-key (kbd "C-c C-c") 'comment-bar)
 
-
 ;; Enabled "advanced" keybindings
 (put 'scroll-left 'disabled nil)
+
+;; TWITTERING
+(add-to-list 'load-path "~/.emacs.d/plugins/twittering-mode")
+(require 'twittering-mode)
