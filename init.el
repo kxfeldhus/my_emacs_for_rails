@@ -32,8 +32,11 @@
 ;(setq default-directory "~/")
 ;; Get rid of toolbar, scrollbar, menubar
 (tool-bar-mode 0)
-;(menu-bar-mode 0)
+(menu-bar-mode 0)
 (scroll-bar-mode 0)
+;; Enabled "advanced" keybindings
+(put 'scroll-left 'disabled nil)
+
 
 ;; FUNCTIONALITY
 ;; redo
@@ -68,20 +71,20 @@ LIST defaults to all existing live buffers."
     (setq list (cdr list))))
 
 ;; fullscreen
-(defun toggle-fullscreen ()
-(interactive)
-(x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-'(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
-(x-send-client-message nil 0 nil "_NET_WM_STATE" 32
-'(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))
-)
-;(toggle-fullscreen)
+;; (defun toggle-fullscreen ()
+;; (interactive)
+;; (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+;; '(2 "_NET_WM_STATE_MAXIMIZED_VERT" 0))
+;; (x-send-client-message nil 0 nil "_NET_WM_STATE" 32
+;; '(2 "_NET_WM_STATE_MAXIMIZED_HORZ" 0))
+;; )
+;; (toggle-fullscreen)
 
 ;; maxframe
 (add-to-list  'load-path "~/.emacs.d/plugins/maxframe")
 (require 'maxframe)
 (add-hook 'window-setup-hook 'maximize-frame t)
-(add-hook 'window-setup-hook 'ecb-redraw-layout t)
+;; (add-hook 'window-setup-hook 'ecb-redraw-layout t)
 (set-background-color "#2b2b2b")
 (set-foreground-color "white")
 (set-face-background 'modeline "DarkRed")
@@ -105,34 +108,34 @@ LIST defaults to all existing live buffers."
 
 ;; cedet
 ;; See cedet/common/cedet.info for configuration details.
-(load-file "~/.emacs.d/plugins/cedet/common/cedet.el")
+;; (load-file "~/.emacs.d/plugins/cedet/common/cedet.el")
 
 ;; ecb
-(add-to-list 'load-path "~/.emacs.d/plugins/ecb")
-(require 'ecb)
-(setq ecb-tip-of-the-day nil)
-(setq ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
-;(ecb-activate)
-(custom-set-variables
- '(ecb-layout-name "left3")
- '(ecb-layout-window-sizes nil)
- '(ecb-options-version "2.40")
- '(ecb-windows-width 0.15)
- '(show-paren-mode t))
+;; (add-to-list 'load-path "~/.emacs.d/plugins/ecb")
+;; (require 'ecb)
+;; (setq ecb-tip-of-the-day nil)
+;; (setq ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
+;; (ecb-activate)
+;; (custom-set-variables
+;;  '(ecb-layout-name "left3")
+;;  '(ecb-layout-window-sizes nil)
+;;  '(ecb-options-version "2.40")
+;;  '(ecb-windows-width 0.15)
+;;  '(show-paren-mode t))
 
 ;; find-recursive
 (add-to-list 'load-path "~/.emacs.d/plugins/find-recursive")
 (require 'find-recursive)
 
 ;; anything
-(add-to-list 'load-path "~/.emacs.d/plugins/anything")
-(require 'anything)
+;; (add-to-list 'load-path "~/.emacs.d/plugins/anything")
+;; (require 'anything)
 
 ;; anything-rcodetools
-(add-to-list 'load-path "~/.emacs.d/plugins/rcodetools")
-(require 'rcodetools)
-;(require 'icicles-rcodetools)
-(require 'anything-rcodetools)
+;; (add-to-list 'load-path "~/.emacs.d/plugins/rcodetools")
+;; (require 'rcodetools)
+;; (require 'icicles-rcodetools)
+;; (require 'anything-rcodetools)
 
 ;; Interactively Do Things (highly recommended, but not strictly required)
 (require 'ido)
@@ -154,8 +157,8 @@ LIST defaults to all existing live buffers."
 (load "~/.emacs.d/plugins/yasnippets-rails/setup.el")
 
 ;; autotest
-(add-to-list 'load-path "~/.emacs.d/plugins/autotest")
-(require 'autotest)
+;; (add-to-list 'load-path "~/.emacs.d/plugins/autotest")
+;; (require 'autotest)
 
 ;; Put autosave files (ie #foo#) in one place, *not*
 ;; scattered all over the file system!
@@ -180,7 +183,7 @@ LIST defaults to all existing live buffers."
   "Create 80 pound signs"
   (interactive "P")
   (insert-char ?# (- 80 (current-column)))
-  (if without-newline (beginning-of-line) (newline))
+  ;; (if without-newline (beginning-of-line) (newline))
   (indent-according-to-mode))
 
 
@@ -285,14 +288,14 @@ t)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 
 ;; rdebug
-(add-to-list 'load-path "~/.emacs.d/plugins/rdebug")
-(require 'rdebug)
-(setq rdebug-short-key-mode t)
+;; (add-to-list 'load-path "~/.emacs.d/plugins/rdebug")
+;; (require 'rdebug)
+;; (setq rdebug-short-key-mode t)
 
 ;; ri-emacs
-(setq ri-ruby-script (expand-file-name "~/.emacs.d/plugins/ri-emacs/ri-emacs.rb"))
-;(autoload 'ri (expand-file-name "~/.emacs.d/plugins/ri-emacs/ri-ruby.el") nil t)
-(load "~/.emacs.d/plugins/ri-emacs/ri-ruby.el")
+;; (setq ri-ruby-script (expand-file-name "~/.emacs.d/plugins/ri-emacs/ri-emacs.rb"))
+;; (autoload 'ri (expand-file-name "~/.emacs.d/plugins/ri-emacs/ri-ruby.el") nil t)
+;; (load "~/.emacs.d/plugins/ri-emacs/ri-ruby.el")
 
 ;; ruby-mode-hook
 (add-hook 'ruby-mode-hook
@@ -330,68 +333,68 @@ t)
 (add-hook 'eruby-nxhtml-mumamo-mode-hook 'tabkey2-mode)
 
 ;; flymake
-(add-to-list  'load-path "~/.emacs.d/plugins/flymake")
-(require 'flymake)
-(set-face-background 'flymake-errline "red4")
-(set-face-background 'flymake-warnline "dark slate blue")
+;; (add-to-list  'load-path "~/.emacs.d/plugins/flymake")
+;; (require 'flymake)
+;; (set-face-background 'flymake-errline "red4")
+;; (set-face-background 'flymake-warnline "dark slate blue")
 
-(defun flymake-create-temp-intemp (file-name prefix)
-  "Return file name in temporary directory for checking FILE-NAME.
-This is a replacement for `flymake-create-temp-inplace'. The
-difference is that it gives a file name in
-`temporary-file-directory' instead of the same directory as
-FILE-NAME.
+;; (defun flymake-create-temp-intemp (file-name prefix)
+;;   "Return file name in temporary directory for checking FILE-NAME.
+;; This is a replacement for `flymake-create-temp-inplace'. The
+;; difference is that it gives a file name in
+;; `temporary-file-directory' instead of the same directory as
+;; FILE-NAME.
 
-For the use of PREFIX see that function.
+;; For the use of PREFIX see that function.
 
-Note that not making the temporary file in another directory
-\(like here) will not if the file you are checking depends on
-relative paths to other files \(for the type of checks flymake
-makes)."
-  (unless (stringp file-name)
-    (error "Invalid file-name"))
-  (or prefix
-      (setq prefix "flymake"))
-  (let* ((name (concat
-                (file-name-nondirectory
-                 (file-name-sans-extension file-name))
-                "_" prefix))
-         (ext  (concat "." (file-name-extension file-name)))
-         (temp-name (make-temp-file name nil ext))
-         )
-    (flymake-log 3 "create-temp-intemp: file=%s temp=%s" file-name temp-name)
-    temp-name))
+;; Note that not making the temporary file in another directory
+;; \(like here) will not if the file you are checking depends on
+;; relative paths to other files \(for the type of checks flymake
+;; makes)."
+;;   (unless (stringp file-name)
+;;     (error "Invalid file-name"))
+;;   (or prefix
+;;       (setq prefix "flymake"))
+;;   (let* ((name (concat
+;;                 (file-name-nondirectory
+;;                  (file-name-sans-extension file-name))
+;;                 "_" prefix))
+;;          (ext  (concat "." (file-name-extension file-name)))
+;;          (temp-name (make-temp-file name nil ext))
+;;          )
+;;     (flymake-log 3 "create-temp-intemp: file=%s temp=%s" file-name temp-name)
+;;     temp-name))
 
-;; Invoke ruby with '-c' to get syntax checking
-(defun flymake-ruby-init ()
-  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-intemp))
-         (local-file  (file-relative-name
-                       temp-file
-                       (file-name-directory buffer-file-name))))
-    (list "ruby" (list "-c" local-file))))
+;; ;; Invoke ruby with '-c' to get syntax checking
+;; (defun flymake-ruby-init ()
+;;   (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+;;                        'flymake-create-temp-intemp))
+;;          (local-file  (file-relative-name
+;;                        temp-file
+;;                        (file-name-directory buffer-file-name))))
+;;     (list "ruby" (list "-c" local-file))))
 
-(push '(".+\\.rb$" flymake-ruby-init) flymake-allowed-file-name-masks)
-(push '(".+\\.rjs$" flymake-ruby-init) flymake-allowed-file-name-masks)
-(push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
+;; (push '(".+\\.rb$" flymake-ruby-init) flymake-allowed-file-name-masks)
+;; (push '(".+\\.rjs$" flymake-ruby-init) flymake-allowed-file-name-masks)
+;; (push '("Rakefile$" flymake-ruby-init) flymake-allowed-file-name-masks)
 
-(push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3) flymake-err-line-patterns)
+;; (push '("^\\(.*\\):\\([0-9]+\\): \\(.*\\)$" 1 2 nil 3) flymake-err-line-patterns)
 
-(add-hook 'ruby-mode-hook
-          '(lambda ()
+;; (add-hook 'ruby-mode-hook
+;;           '(lambda ()
 
-             ;; Don't want flymake mode for ruby regions in rhtml files and also on read only files
-             (if (and (not (null buffer-file-name)) (file-writable-p buffer-file-name))
-                 (flymake-mode))
-             ))
+;;              ;; Don't want flymake mode for ruby regions in rhtml files and also on read only files
+;;              (if (and (not (null buffer-file-name)) (file-writable-p buffer-file-name))
+;;                  (flymake-mode))
+;;              ))
 
-(require 'flymake-jslint)
-(add-hook 'javascript-mode-hook
-          '(lambda ()
-             ;; Don't want flymake mode for ruby regions in rhtml files and also on read only files
-             (if (and (not (null buffer-file-name)) (file-writable-p buffer-file-name))
-                 (flymake-mode))
-             ))
+;; (require 'flymake-jslint)
+;; (add-hook 'javascript-mode-hook
+;;           '(lambda ()
+;;              ;; Don't want flymake mode for ruby regions in rhtml files and also on read only files
+;;              (if (and (not (null buffer-file-name)) (file-writable-p buffer-file-name))
+;;                  (flymake-mode))
+;;              ))
 
 
 ;; rhtml-mode
@@ -494,18 +497,15 @@ makes)."
 (add-to-list 'load-path "~/.emacs.d/plugins/magit")
 (require 'magit)
 
-
 ;; KEY BINDINGS
 (global-set-key [S-backspace] 'backward-delete-char)
-(global-set-key (kbd "C-S-Q") 'comment-region)
-(global-set-key (kbd "C-S-W") 'uncomment-region)
+(global-set-key (kbd "C-c C-h") 'comment-region)
+(global-set-key (kbd "C-c C-j") 'uncomment-region)
 (global-set-key (kbd "C-z") 'undo)
 (global-set-key (kbd "C-S-z") 'redo)
 (global-set-key (kbd "C-w") 'clipboard-kill-region)
 (global-set-key (kbd "M-w") 'clipboard-kill-ring-save)
 (global-set-key (kbd "C-y") 'clipboard-yank)
-(global-set-key (kbd "C-c C-c") 'comment-bar)
-
-
-;; Enabled "advanced" keybindings
-(put 'scroll-left 'disabled nil)
+(global-set-key (kbd "C-c C-c")  'comment-bar)
+(global-set-key (kbd "C-c C-g") 'replace-string)
+(global-set-key (kbd "C-x C-m C-s") 'magit-status)
