@@ -509,3 +509,11 @@ t)
 (global-set-key (kbd "C-c C-c")  'comment-bar)
 (global-set-key (kbd "C-c C-g") 'replace-string)
 (global-set-key (kbd "C-x C-m C-s") 'magit-status)
+(global-set-key (kbd "C-c C-c") 'comment-bar)
+
+;; Enabled "advanced" keybindings
+(put 'scroll-left 'disabled nil)
+
+;; TWITTERING
+(add-to-list 'load-path "~/.emacs.d/plugins/twittering-mode")
+(require 'twittering-mode)
